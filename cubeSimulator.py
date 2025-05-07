@@ -1,0 +1,133 @@
+import os
+import time
+from moveFunctions import *
+myCube = [[0, 0, 0, 0], [1, 1, 1, 1], [2, 2 ,2, 2], [3, 3, 3, 3], [4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
+
+# cube[1] = white
+# cube[2] = blue
+# cube[3] = yellow
+# cube[4] = green
+# cube[5] = orange
+# cube[6] = red
+
+# ANSI escape code for 24-bit RGB foreground color
+def rgb_bg(r, g, b):
+    return f"\033[48;2;{r};{g};{b}m  \033[0m"
+# Color definitions for each face
+color_map_rgb = {
+    1: (255, 255, 255),  # White
+    2: (0, 100, 255),      # Blue
+    3: (255, 255, 0),    # Yellow
+    4: (0, 255, 0),      # Green
+    5: (255, 165, 0),    # Orange (real RGB orange)
+    6: (255, 0, 0),      # Red
+}
+reverseOf = {
+    'r' : 'ri',
+    'ri' : 'r',
+    'l' : 'li',
+    'li' : 'l',
+    'u' : 'ui',
+    'ui' : 'u',
+    'b' : 'bi',
+    'bi' : 'b',
+    'f' : 'if',
+    'fi' : 'f',
+    'd' : 'di',
+    'di' : 'd'
+}
+oppositeOf = {
+    'r': 'l',
+    'ri': 'li',
+    'l': 'r',
+    'li': 'ri',
+    'u': 'd',
+    'ui': 'di',
+    'b': 'f',
+    'bi': 'fi',
+    'f': 'b',
+    'fi': 'bi',
+    'd': 'u',
+    'di': 'ui'
+}
+def render_face(face_idx, cube):
+    face = cube[face_idx]
+    # Build each row by looking up color from the value in the square
+    row1 = rgb_bg(*color_map_rgb[face[0]]) + rgb_bg(*color_map_rgb[face[1]])
+    row2 = rgb_bg(*color_map_rgb[face[2]]) + rgb_bg(*color_map_rgb[face[3]])
+    return [row1, row2]
+
+def printCube(cube):
+    # Fetch formatted faces
+    face1 = render_face(1, cube)
+    face2 = render_face(2, cube)
+    face3 = render_face(3, cube)
+    face4 = render_face(4, cube)
+    face5 = render_face(5, cube)
+    face6 = render_face(6, cube)
+
+    # Print in net layout:
+    print("     " + face5[0])
+    print("     " + face5[1])
+    print()
+    print(face4[0] + " " + face1[0] + " " + face2[0] + " " + face3[0])
+    print(face4[1] + " " + face1[1] + " " + face2[1] + " " + face3[1])
+    print()
+    print("     " + face6[0])
+    print("     " + face6[1])
+
+def isSolved(cube):
+    for faces in cube:
+        for tile in range(4):
+            if faces[tile] != faces[0]:
+                return False
+
+    return True
+
+
+
+def reward(cube, moves):
+    if moves[-1] == reverseOf[moves[-2]]:
+        return -100
+    elif moves[-1] == moves [-2] == moves[-3] == moves[-4]:
+        return -100
+    elif moves[-1] == reverseOf[oppositeOf[moves[-2]]]:
+            return -100
+    elif isSolved(cube):
+        return 100
+
+    points = 0
+    for face in range(1, 7):
+        frequency = [0, 0, 0, 0, 0, 0, 0]
+        for tile in cube[face]:
+            frequency[tile] += 1
+        points += max(frequency) - 1
+    return points
+
+
+# while True:
+#     printCube(myCube)
+#     move = input("move: ").lower()
+#     moveCube(move, myCube)
+#     print()
+
+
+# moveCube('R', myCube)
+moves = ['l', 'ri', 'l']
+# reward(myCube, moves)
+
+new = True
+states = [myCube]
+possibleMoves = ['r', 'ri', 'l', 'li', 'u', 'ui', 'd', 'di', 'f', 'fi', 'b', 'bi']
+while new:
+    new = False
+    for move in possibleMoves:
+        for state in states:
+            print(state, move)
+            if moveCube(move, state) not in states:
+                states.append(moveCube(move, state))
+                new = True
+
+print(len(states))
+
+
