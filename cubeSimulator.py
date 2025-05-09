@@ -1,7 +1,6 @@
 import os
 import time
 from moveFunctions import *
-mycube2 = [[0, 0, 0, 0], [1, 1, 1, 1], [2, 2 ,2, 2], [3, 3, 3, 3], [4, 4, 4, 4], [5, 5, 5, 5], [6, 6, 6, 6]]
 mycube3 = [[0]*9, [1]*9, [2]*9, [3]*9, [4]*9, [5]*9, [6]*9]
 
 # ANSI escape code for 24-bit RGB foreground color
@@ -83,23 +82,27 @@ def isSolved(cube):
     return True
 
 
-def reward(cube, moves):
-    if moves[-1] == reverseOf[moves[-2]]:
-        return -100
-    elif moves[-1] == moves [-2] == moves[-3] == moves[-4]:
-        return -100
-    elif moves[-1] == reverseOf[oppositeOf[moves[-2]]]:
-            return -100
-    elif isSolved(cube):
-        return 100
-
+def reward(cube, move):
+    # state = (cube_configuration, last_n_moves)!!
     points = 0
-    for face in range(1, 7):
-        frequency = [0, 0, 0, 0, 0, 0, 0]
-        for tile in cube[face]:
-            frequency[tile] += 1
-        points += max(frequency) - 1
-    return points
+    for faces in cube:
+        beforeMove = 0
+        for i in range(9):
+            if faces[i] == faces[4] and i != 4:
+                beforeMove += 1
+
+    testcube = moveCube(cube, move)
+
+    for faces in cube:
+        afterMove = 0
+        for i in range(9):
+            if faces[i] == faces[4] and i != 4:
+                afterMove += 1
+
+    points += (afterMove - beforeMove)
+
+
+
 
 os.system("clear")
 print()
