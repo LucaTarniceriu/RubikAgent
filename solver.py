@@ -2,22 +2,30 @@ from cubeSimulator import *
 alpha = 0.2
 gamma = 0.95
 
-state = myCube
+def maxState(q, state):
+    max = q[(state, 'r')]
+    for moves in possibleMoves:
+        if q[(state, moves)] > max:
+            max = q[(state,  moves)]
+
+    return max
+
+state = mycube3
 action = 'r'
-nextState = moveCube(myCube, 'r')
+nextState = moveCube(mycube3, 'r')
 q = {
-    (myCube, 'r') : 0,
-    (myCube, 'ri') : 0,
-    (myCube, 'l') : 0,
-    (myCube, 'li') : 0,
-    (myCube, 'u') : 0,
-    (myCube, 'ui') : 0,
-    (myCube, 'd') : 0,
-    (myCube, 'di' ): 0,
-    (myCube, 'f') : 0,
-    (myCube, 'fi') : 0,
-    (myCube, 'b') : 0,
-    (myCube, 'bi') : 0
+    (mycube3, 'r') : 0,
+    (mycube3, 'ri') : 0,
+    (mycube3, 'l') : 0,
+    (mycube3, 'li') : 0,
+    (mycube3, 'u') : 0,
+    (mycube3, 'ui') : 0,
+    (mycube3, 'd') : 0,
+    (mycube3, 'di' ): 0,
+    (mycube3, 'f') : 0,
+    (mycube3, 'fi') : 0,
+    (mycube3, 'b') : 0,
+    (mycube3, 'bi') : 0
 }
 
-q[(state, action)] = q[(state, action)] + alpha * (reward(state, action) + gamma * max(q[nextState]) - q[(state, action)])
+q[(state, action)] = q[(state, action)] + alpha * (reward(state, action) + gamma * maxState(q, nextState) - q[(state, action)])

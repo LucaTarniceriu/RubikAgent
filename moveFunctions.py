@@ -212,28 +212,40 @@ def FI(cube):
 def moveCube(move, cube):
     if move == 'R' or move == 'r':
         R(cube)
+        cube[7].append("r")
     elif move == 'RI' or move == 'ri':
         RI(cube)
+        cube[7].append("ri")
     elif move == 'L' or move == 'l':
         L(cube)
+        cube[7].append("l")
     elif move == 'LI' or move == 'li':
         LI(cube)
+        cube[7].append("li")
     elif move == 'U' or move == 'u':
         U(cube)
+        cube[7].append("u")
     elif move == 'UI' or move == 'ui':
         UI(cube)
+        cube[7].append("ui")
     elif move == 'D' or move == 'd':
         D(cube)
+        cube[7].append("d")
     elif move == 'DI' or move == 'di':
         DI(cube)
+        cube[7].append("di")
     elif move == 'F' or move == 'f':
         F(cube)
+        cube[7].append("f")
     elif move == 'FI' or move == 'fi':
         FI(cube)
+        cube[7].append("fi")
     elif move == 'B' or move == 'b':
         B(cube)
+        cube[7].append("b")
     elif move == 'BI' or move == 'bi':
         BI(cube)
+        cube[7].append("bi")
     else:
         print("Not a valid move")
 

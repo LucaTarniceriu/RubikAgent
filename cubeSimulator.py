@@ -1,7 +1,8 @@
 import os
 import time
 from moveFunctions import *
-mycube3 = [[0]*9, [1]*9, [2]*9, [3]*9, [4]*9, [5]*9, [6]*9]
+mycube3 = [[0]*9, [1]*9, [2]*9, [3]*9, [4]*9, [5]*9, [6]*9, []]
+possibleMoves = ['r', 'ri', 'l', 'li', 'u', 'ui', 'd', 'di', 'f', 'fi', 'b', 'bi']
 
 # ANSI escape code for 24-bit RGB foreground color
 def rgb_bg(r, g, b):
@@ -74,34 +75,40 @@ def printCube(cube):
     print("          " + face6[2])
 
 def isSolved(cube):
-    for faces in cube:
+    for faces in range(1, 7):
         for tile in range(9):
-            if faces[tile] != faces[0]:
+            if cube[faces][tile] != cube[faces][0]:
                 return False
 
     return True
 
 
 def reward(cube, move):
-    # state = (cube_configuration, last_n_moves)!!
     points = 0
-    for faces in cube:
+    for faces in range(1, 7):
         beforeMove = 0
         for i in range(9):
-            if faces[i] == faces[4] and i != 4:
+            if cube[faces][i] == cube[faces][4] and i != 4:
                 beforeMove += 1
 
     testcube = moveCube(cube, move)
 
-    for faces in cube:
+    for faces in range(1, 7):
         afterMove = 0
         for i in range(9):
-            if faces[i] == faces[4] and i != 4:
+            if testcube[faces][i] == testcube[faces][4] and i != 4:
                 afterMove += 1
 
     points += (afterMove - beforeMove)
 
+    if cube[7][-1] == oppositeOf[cube[7][-2]]:
+        points -= 100
 
+    if cube[7][-1] == cube[7][-2] == cube[7][-3] == cube[7][-4]:
+        points -= 100
+
+    if isSolved(cube):
+        points += 100
 
 
 os.system("clear")
@@ -122,7 +129,6 @@ while True:
 #
 # new = True
 # states = [mycube3]
-# possibleMoves = ['r', 'ri', 'l', 'li', 'u', 'ui', 'd', 'di', 'f', 'fi', 'b', 'bi']
 # while new:
 #     new = False
 #     for move in possibleMoves:
