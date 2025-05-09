@@ -1,31 +1,81 @@
 from cubeSimulator import *
+import random
+
+
 alpha = 0.2
 gamma = 0.95
+epsilon = 1.0
+epsilonDecayRate = 0.99
+minEpsilon = 0.05
+episodes = 10000
+
+mycube3 = [[0]*9, [1]*9, [2]*9, [3]*9, [4]*9, [5]*9, [6]*9, []]
+scrambeledCube = [[0, 0, 0, 0, 0, 0, 0, 0, 0], [4, 5, 2, 2, 1, 3, 6, 4, 4], [6, 4, 2, 2, 2, 3, 1, 1, 2], [3, 5, 6, 6, 3, 6, 6, 4, 4], [1, 1, 3, 1, 4, 5, 5, 6, 2], [4, 1, 5, 4, 5, 6, 5, 3, 3], [1, 5, 5, 2, 6, 2, 1, 3, 3]]
+
+scramble = ['f', 'ri', 'u', 'u', 'l', 'di', 'b', 'b', 'ui', 'r', 'fi', 'd', 'd', 'u', 'l', 'l', 'b', 'd', 'fi', 'r', 'r', 'di', 'u', 'u']
+
 
 def maxState(q, state):
-    max = q[(state, 'r')]
-    for moves in possibleMoves:
-        if q[(state, moves)] > max:
-            max = q[(state,  moves)]
 
-    return max
+
+    max = q[list(q.keys())[0]]
+    maxMove = list(q.keys())[0][1]
+
+    for moves in possibleMoves:
+        if (str(state), moves) in q.keys():
+            if q[(str(state), moves)] > max:
+                max = q[(str(state),  moves)]
+                maxMove = moves
+
+    return [max, maxMove]
 
 state = mycube3
 action = 'r'
-nextState = moveCube(mycube3, 'r')
+nextState = moveCube('r', mycube3)
 q = {
-    (mycube3, 'r') : 0,
-    (mycube3, 'ri') : 0,
-    (mycube3, 'l') : 0,
-    (mycube3, 'li') : 0,
-    (mycube3, 'u') : 0,
-    (mycube3, 'ui') : 0,
-    (mycube3, 'd') : 0,
-    (mycube3, 'di' ): 0,
-    (mycube3, 'f') : 0,
-    (mycube3, 'fi') : 0,
-    (mycube3, 'b') : 0,
-    (mycube3, 'bi') : 0
+    (str(mycube3), 'r') : 0,
+    (str(mycube3), 'ri') : 0,
+    (str(mycube3), 'l') : 0,
+    (str(mycube3), 'li') : 0,
+    (str(mycube3), 'u') : 0,
+    (str(mycube3), 'ui') : 0,
+    (str(mycube3), 'd') : 0,
+    (str(mycube3), 'di' ): 0,
+    (str(mycube3), 'f') : 0,
+    (str(mycube3), 'fi') : 0,
+    (str(mycube3), 'b') : 0,
+    (str(mycube3), 'bi') : 0
 }
 
-q[(state, action)] = q[(state, action)] + alpha * (reward(state, action) + gamma * maxState(q, nextState) - q[(state, action)])
+# q[(state, action)] = q[(state, action)] + alpha * (reward(state, action) + gamma * maxState(q, nextState)[0] - q[(state, action)])
+
+scrambleCube(scramble, mycube3)
+printCube(mycube3)
+
+for ep in range(episodes):
+    score = 0
+    scrambeledCube = [[0, 0, 0, 0, 0, 0, 0, 0, 0], [4, 5, 2, 2, 1, 3, 6, 4, 4], [6, 4, 2, 2, 2, 3, 1, 1, 2], [3, 5, 6, 6, 3, 6, 6, 4, 4], [1, 1, 3, 1, 4, 5, 5, 6, 2], [4, 1, 5, 4, 5, 6, 5, 3, 3], [1, 5, 5, 2, 6, 2, 1, 3, 3], []]
+    currentState = scrambeledCube.copy()
+    for tries in range(100):
+        if random.uniform(0, 1) < epsilon:
+            #exploration
+            action = possibleMoves[random.randint(0, len(possibleMoves)-1)]
+        else:
+            #exploitation
+            action = maxState(q, currentState)[1]
+
+        nextState = moveCube(action, currentState)
+
+        print(len(currentState[-1]), score)
+        if (str(currentState), action) in q.keys():
+            q[(str(currentState), action)] = q[(str(currentState), action)] + alpha * (reward(currentState, action) + gamma * maxState(q, nextState)[0] - q[(str(currentState), action)])
+            score += reward(currentState, action)
+        else:
+            q[(str(currentState), action)] = 0
+        currentState = nextState
+
+        if isSolved(currentState):
+            print("I have solved it!!")
+            break
+        epsilon = max(minEpsilon, epsilon * epsilonDecayRate)
+    print("end of episode")

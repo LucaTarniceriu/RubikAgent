@@ -211,41 +211,40 @@ def FI(cube):
 
 def moveCube(move, cube):
     if move == 'R' or move == 'r':
-        R(cube)
         cube[7].append("r")
+        return R(cube)
     elif move == 'RI' or move == 'ri':
-        RI(cube)
         cube[7].append("ri")
+        return RI(cube)
     elif move == 'L' or move == 'l':
-        L(cube)
         cube[7].append("l")
+        return L(cube)
     elif move == 'LI' or move == 'li':
-        LI(cube)
         cube[7].append("li")
+        return LI(cube)
     elif move == 'U' or move == 'u':
-        U(cube)
         cube[7].append("u")
+        return U(cube)
     elif move == 'UI' or move == 'ui':
-        UI(cube)
         cube[7].append("ui")
+        return UI(cube)
     elif move == 'D' or move == 'd':
-        D(cube)
         cube[7].append("d")
+        return D(cube)
     elif move == 'DI' or move == 'di':
-        DI(cube)
         cube[7].append("di")
+        return DI(cube)
     elif move == 'F' or move == 'f':
-        F(cube)
         cube[7].append("f")
+        return F(cube)
     elif move == 'FI' or move == 'fi':
-        FI(cube)
         cube[7].append("fi")
+        return FI(cube)
     elif move == 'B' or move == 'b':
-        B(cube)
         cube[7].append("b")
+        return B(cube)
     elif move == 'BI' or move == 'bi':
-        BI(cube)
         cube[7].append("bi")
+        return BI(cube)
     else:
-        print("Not a valid move")
-
+        print("Not a valid move (" + str(move) + ")")

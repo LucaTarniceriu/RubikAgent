@@ -1,7 +1,7 @@
 import os
 import time
 from moveFunctions import *
-mycube3 = [[0]*9, [1]*9, [2]*9, [3]*9, [4]*9, [5]*9, [6]*9, []]
+
 possibleMoves = ['r', 'ri', 'l', 'li', 'u', 'ui', 'd', 'di', 'f', 'fi', 'b', 'bi']
 
 # ANSI escape code for 24-bit RGB foreground color
@@ -91,7 +91,7 @@ def reward(cube, move):
             if cube[faces][i] == cube[faces][4] and i != 4:
                 beforeMove += 1
 
-    testcube = moveCube(cube, move)
+    testcube = moveCube(move, cube)
 
     for faces in range(1, 7):
         afterMove = 0
@@ -102,42 +102,30 @@ def reward(cube, move):
     points += (afterMove - beforeMove)
 
     if cube[7][-1] == oppositeOf[cube[7][-2]]:
-        points -= 100
-
-    if cube[7][-1] == cube[7][-2] == cube[7][-3] == cube[7][-4]:
-        points -= 100
+        points -= 1000
+    try:
+        if cube[7][-1] == cube[7][-2] == cube[7][-3] == cube[7][-4]:
+            points -= 1000
+    except:
+        pass
 
     if isSolved(cube):
-        points += 100
+        points += 1000
 
+    return points
 
 os.system("clear")
 print()
 
-while True:
-    printCube(mycube3)
-    move = input("move: ").lower()
-    os.system('clear')
-    moveCube(move, mycube3)
-    print()
+# while True:
+#     printCube(mycube3)
+#     move = input("move: ").lower()
+#     os.system('clear')
+#     moveCube(move, mycube3)
+#     print()
 
 
-
-# printCube(mycube3)
-# moves = ['l', 'ri', 'l']
-# # reward(myCube, moves)
-#
-# new = True
-# states = [mycube3]
-# while new:
-#     new = False
-#     for move in possibleMoves:
-#         for state in states:
-#             print(state, move)
-#             if moveCube(move, state) not in states:
-#                 states.append(moveCube(move, state))
-#                 new = True
-#
-# print(len(states))
-
-
+def scrambleCube(scramble, cube):
+    for moves in scramble:
+        cube = moveCube(moves, cube)
+    print(cube)
