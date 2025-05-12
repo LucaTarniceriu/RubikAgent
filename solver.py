@@ -20,14 +20,17 @@ def maxState(q, state):
 
     max = q[list(q.keys())[0]]
     maxMove = list(q.keys())[0][1]
-
+    found = 0
     for moves in possibleMoves:
         if (str(state), moves) in q.keys():
             if q[(str(state), moves)] > max:
                 max = q[(str(state),  moves)]
                 maxMove = moves
-
-    return [max, maxMove]
+                found = 1
+    if found == 0:
+        return [-1, -1]
+    else:
+        return [max, maxMove]
 
 # state = mycube3
 # action = 'r'
@@ -57,7 +60,7 @@ for ep in range(episodes):
     # scrambeledCube = [[0, 0, 0, 0, 0, 0, 0, 0, 0], [4, 5, 2, 2, 1, 3, 6, 4, 4], [6, 4, 2, 2, 2, 3, 1, 1, 2], [3, 5, 6, 6, 3, 6, 6, 4, 4], [1, 1, 3, 1, 4, 5, 5, 6, 2], [4, 1, 5, 4, 5, 6, 5, 3, 3], [1, 5, 5, 2, 6, 2, 1, 3, 3], []]
     scrambeledCube = mycube3
     currentState = scrambeledCube.copy()
-    for tries in range(100):
+    for tries in range(300):
         if random.uniform(0, 1) < epsilon:
             #exploration
             action = possibleMoves[random.randint(0, len(possibleMoves)-1)]
@@ -65,7 +68,11 @@ for ep in range(episodes):
         else:
             #exploitation
             action = maxState(q, currentState[0])[1]
-            actiontype = "best"
+            if action == -1:
+                action = possibleMoves[random.randint(0, len(possibleMoves) - 1)]
+                actiontype = "random"
+            else:
+                actiontype = "best"
 
         nextState = moveCube(action, currentState)
 
