@@ -21,3 +21,5 @@ q = {
 }
 
 q[(state, action)] = q[(state, action)] + alpha * (reward(state, action) + gamma * max(q[nextState]) - q[(state, action)])
+
+test
