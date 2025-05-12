@@ -1,5 +1,5 @@
 def R(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o2, o5, o8 = cubeCopy[1][2], cubeCopy[1][5], cubeCopy[1][8]
     y2, y5, y8 = cubeCopy[5][2], cubeCopy[5][5], cubeCopy[5][8]
     r0, r3, r6 = cubeCopy[3][0], cubeCopy[3][3], cubeCopy[3][6]
@@ -15,7 +15,7 @@ def R(cube):
     return cubeCopy
 
 def RI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o2, o5, o8 = cubeCopy[1][2], cubeCopy[1][5], cubeCopy[1][8]
     y2, y5, y8 = cubeCopy[5][2], cubeCopy[5][5], cubeCopy[5][8]
     r0, r3, r6 = cubeCopy[3][0], cubeCopy[3][3], cubeCopy[3][6]
@@ -31,7 +31,7 @@ def RI(cube):
     return cubeCopy
 
 def L(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y0, y3, y6 = cubeCopy[5][0], cubeCopy[5][3], cubeCopy[5][6]
     o0, o3, o6  = cubeCopy[1][0], cubeCopy[1][3], cubeCopy[1][6]
     w0, w3, w6 = cubeCopy[6][0], cubeCopy[6][3], cubeCopy[6][6]
@@ -49,7 +49,7 @@ def L(cube):
     return cubeCopy
 
 def LI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y0, y3, y6 = cubeCopy[5][0], cubeCopy[5][3], cubeCopy[5][6]
     o0, o3, o6 = cubeCopy[1][0], cubeCopy[1][3], cubeCopy[1][6]
     w0, w3, w6 = cubeCopy[6][0], cubeCopy[6][3], cubeCopy[6][6]
@@ -67,7 +67,7 @@ def LI(cube):
     return cubeCopy
 
 def U(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o0, o1, o2 = cubeCopy[1][0], cubeCopy[1][1], cubeCopy[1][2]
     g0, g1, g2 = cubeCopy[4][0], cubeCopy[4][1], cubeCopy[4][2]
     r0, r1, r2 = cubeCopy[3][0], cubeCopy[3][1], cubeCopy[3][2]
@@ -84,7 +84,7 @@ def U(cube):
     return cubeCopy
 
 def UI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o0, o1, o2 = cubeCopy[1][0], cubeCopy[1][1], cubeCopy[1][2]
     g0, g1, g2 = cubeCopy[4][0], cubeCopy[4][1], cubeCopy[4][2]
     r0, r1, r2 = cubeCopy[3][0], cubeCopy[3][1], cubeCopy[3][2]
@@ -102,7 +102,7 @@ def UI(cube):
     return cubeCopy
 
 def D(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o6, o7, o8 = cubeCopy[1][6], cubeCopy[1][7], cubeCopy[1][8]
     g6, g7, g8 = cubeCopy[4][6], cubeCopy[4][7], cubeCopy[4][8]
     r6, r7, r8 = cubeCopy[3][6], cubeCopy[3][7], cubeCopy[3][8]
@@ -122,7 +122,7 @@ def D(cube):
     return cubeCopy
 
 def DI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     o6, o7, o8 = cubeCopy[1][6], cubeCopy[1][7], cubeCopy[1][8]
     g6, g7, g8 = cubeCopy[4][6], cubeCopy[4][7], cubeCopy[4][8]
     r6, r7, r8 = cubeCopy[3][6], cubeCopy[3][7], cubeCopy[3][8]
@@ -140,7 +140,7 @@ def DI(cube):
     return cubeCopy
 
 def B(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y0, y1, y2 = cubeCopy[5][0], cubeCopy[5][1], cubeCopy[5][2]
     b2, b5, b8 = cubeCopy[2][2], cubeCopy[2][5], cubeCopy[2][8]
     g0, g3, g6 = cubeCopy[4][0], cubeCopy[4][3], cubeCopy[4][6]
@@ -158,7 +158,7 @@ def B(cube):
     return cubeCopy
 
 def BI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y0, y1, y2 = cubeCopy[5][0], cubeCopy[5][1], cubeCopy[5][2]
     b2, b5, b8 = cubeCopy[2][2], cubeCopy[2][5], cubeCopy[2][8]
     g0, g3, g6 = cubeCopy[4][0], cubeCopy[4][3], cubeCopy[4][6]
@@ -176,7 +176,7 @@ def BI(cube):
     return cubeCopy
 
 def F(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y6, y7, y8 = cubeCopy[5][6], cubeCopy[5][7], cubeCopy[5][8]
     b0, b3, b6 = cubeCopy[2][0], cubeCopy[2][3], cubeCopy[2][6]
     g2, g5, g8 = cubeCopy[4][2], cubeCopy[4][5], cubeCopy[4][8]
@@ -193,7 +193,7 @@ def F(cube):
     return cubeCopy
 
 def FI(cube):
-    cubeCopy = cube.copy()
+    cubeCopy = cube[0].copy()
     y6, y7, y8 = cubeCopy[5][6], cubeCopy[5][7], cubeCopy[5][8]
     b0, b3, b6 = cubeCopy[2][0], cubeCopy[2][3], cubeCopy[2][6]
     g2, g5, g8 = cubeCopy[4][2], cubeCopy[4][5], cubeCopy[4][8]
@@ -211,40 +211,41 @@ def FI(cube):
 
 def moveCube(move, cube):
     if move == 'R' or move == 'r':
-        cube[7].append("r")
+        cube[1].append("r")
+        cube[0] = R(cube)
         return R(cube)
     elif move == 'RI' or move == 'ri':
-        cube[7].append("ri")
+        cube[1].append("ri")
         return RI(cube)
     elif move == 'L' or move == 'l':
-        cube[7].append("l")
+        cube[1].append("l")
         return L(cube)
     elif move == 'LI' or move == 'li':
-        cube[7].append("li")
+        cube[1].append("li")
         return LI(cube)
     elif move == 'U' or move == 'u':
-        cube[7].append("u")
+        cube[1].append("u")
         return U(cube)
     elif move == 'UI' or move == 'ui':
-        cube[7].append("ui")
+        cube[1].append("ui")
         return UI(cube)
     elif move == 'D' or move == 'd':
-        cube[7].append("d")
+        cube[1].append("d")
         return D(cube)
     elif move == 'DI' or move == 'di':
-        cube[7].append("di")
+        cube[1].append("di")
         return DI(cube)
     elif move == 'F' or move == 'f':
-        cube[7].append("f")
+        cube[1].append("f")
         return F(cube)
     elif move == 'FI' or move == 'fi':
-        cube[7].append("fi")
+        cube[1].append("fi")
         return FI(cube)
     elif move == 'B' or move == 'b':
-        cube[7].append("b")
+        cube[1].append("b")
         return B(cube)
     elif move == 'BI' or move == 'bi':
-        cube[7].append("bi")
+        cube[1].append("bi")
         return BI(cube)
     else:
         print("Not a valid move (" + str(move) + ")")

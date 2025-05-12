@@ -88,7 +88,7 @@ def reward(cube, move):
     for faces in range(1, 7):
         beforeMove = 0
         for i in range(9):
-            if cube[faces][i] == cube[faces][4] and i != 4:
+            if cube[0][faces][i] == cube[0][faces][4] and i != 4:
                 beforeMove += 1
 
     testcube = moveCube(move, cube)
@@ -96,22 +96,23 @@ def reward(cube, move):
     for faces in range(1, 7):
         afterMove = 0
         for i in range(9):
-            if testcube[faces][i] == testcube[faces][4] and i != 4:
+            if testcube[0][faces][i] == testcube[0][faces][4] and i != 4:
                 afterMove += 1
 
     points += (afterMove - beforeMove)
 
-    if cube[7][-1] == oppositeOf[cube[7][-2]]:
+    if cube[1][-1] == oppositeOf[cube[1][-2]]:
         points -= 1000
     try:
-        if cube[7][-1] == cube[7][-2] == cube[7][-3] == cube[7][-4]:
+        if cube[1][-1] == cube[1][-2] == cube[1][-3] == cube[1][-4]:
             points -= 1000
     except:
         pass
 
-    if isSolved(cube):
+    if isSolved(cube[0]):
         points += 1000
 
+    points -= 1
     return points
 
 os.system("clear")
@@ -128,4 +129,5 @@ print()
 def scrambleCube(scramble, cube):
     for moves in scramble:
         cube = moveCube(moves, cube)
+    cube[1].clear()
     print(cube)
